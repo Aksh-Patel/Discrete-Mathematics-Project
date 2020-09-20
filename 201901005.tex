@@ -1,0 +1,361 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{SC205 Project}
+\author{Aksh Patel / 201901005 }
+\date{7\textsuperscript{th}June 2020}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction :- }
+\begin{itemize}
+    \item One day I was thinking about how the pizza delivery boy take different paths to quickly his deliver his orders and also with less cost.
+    \item Here I had made a project to help pizza delivery boy to choose the best path out of all possible paths and also to reduce the travelling cost!!!
+    \item I will use some $DISCRETE$ $MATHEMATICS$ topics like -
+\end{itemize}
+
+\begin{enumerate}
+    \item \textbf{Graph Theory} \\
+        a). Adjacency Matrix \\
+        b). Hamiltonian Circuit \\
+        c). Vertices \\
+        d). Paths
+    \item \textbf{Sets}\\
+        a). To store nodes
+    \item \textbf{Matrices}\\
+        a). To store Graph in Matrix form.\\
+        b). To store all the related calculation in Matrix form.
+    \item \textbf{Logic Conditions}\\
+        a). To decide which path to take to get maximum benefit.
+    \item \textbf{Time Complexity} ($\theta , \Omega , O$ notations)\\
+        a). To measure the running time of both the algorithms.
+        
+            1. Dijkstra Algorithm.
+            
+            2. Travelling Salesman Problem.
+\end{enumerate}
+\\
+\textbf{Note : I had also done the software implementation part of this project in $C$.}
+
+\newpage
+\section{Problem Statement :- }
+As shown in $Fig:1$ a pizza delivery boy starts from Restaurant ($R$) and he want to go to places $D$ , $E$ and $F$ for delivering pizza.\\\\
+So, You have to find out which path he takes to minimize his cost and also the minimum cost.\\ \\
+The cost of respective paths are mention on paths in $Fig:1$ .\\
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth, height=0.5\textwidth]{201901005_Nodegraph1.jpg}
+    \caption{Finding best path with Less Cost.}
+    \label{fig:Nodegraph1}
+\end{figure}\\
+\textbf{Adjacency Matrix : }It stores the whole graph in matrix form . It specifies the distance between two nodes.\\
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|c|}
+        \hline
+        Adjacency Matrix & R & A & B & C & D & E & F \\
+        \hline
+        R & 0 & 3 & 0 & 8 & 5 & 0 & 0 \\
+        A & 3 & 0 & 9 & 0 & 0 & 6 & 0 \\
+        B & 0 & 9 & 0 & 4 & 0 & 0 & 2 \\ 
+        C & 8 & 0 & 4 & 0 & 0 & 1 & 4 \\
+        D & 5 & 0 & 0 & 0 & 0 & 1 & 0 \\
+        E & 0 & 6 & 0 & 1 & 1 & 0 & 0 \\
+        F & 0 & 0 & 2 & 4 & 0 & 0 & 0 \\  
+        \hline
+    \end{tabular}
+    \caption{Adjacency Matrix}
+    \label{tab:my_label}
+\end{table}
+\newpage
+\section{Algorithm or Procedure :- }
+
+    \subsection[]{Finding shortest Path Distance OR Minimum cost :}
+        -- First I will find shortest paths from nodes $R$ , $D$ , $E$ and $F$ to all the remaining nodes by Dijkstra Algorithm.\\
+        \subsubsection{Procedure to find shortest path distance :}
+        \begin{enumerate}
+            \item Make a Matrix of size $( n * n )$ where n is the total no of nodes in graph model.
+            \item First column in matrix denotes selected vertex.
+            \item Remaining columns shows the distance to corresponding vertex.
+            \item So, first we have to select the vertex from which we want to find shortest distances to all the vertices.
+            \item If any vertex is directly attached to the selected vertex then we put their distance in matrix otherwise we put infinity.
+            \item Now we have first row ready with us. So we go through from $2^{nd}$ column to last column in $1^{st}$ and find the smallest value of $1^{st}$ and select that vertex in the $2^{nd}$ row.
+            \item If any vertex is directly attached to the selected vertex then we check if the distance from the selected vertex is smaller than previously modified than we change the previous distance to the distance between them in that column otherwise we left it unchanged.
+            \item We repeat this procedure untill all the vertices are selected.
+            \item Last row that we get in this matrix denotes the smallest distance of that vertex to the first selected vertex.
+            \item During this procedure we have to make a traceback matrix to get the best path out of many possible paths.
+            \citep{6240942}
+        \end{enumerate}\newpage
+        \subsubsection{Calculation of Matrices of $R$ , $D$ , $E$ , $F$ :}\\
+        \begin{enumerate}
+            \item From node $R$\\
+           \begin{table}[h]
+               \centering
+               \begin{tabular}{|C|c|c|c|c|c|c|c|}
+               \hline
+                Selected Vertex & A & B & C & D & E & F  \\
+                \hline
+                R & 3 & $\infty$ & 8 & 5 & $\infty$ & $\infty$ \\
+                \hline
+                A & 3 & 12 & 8 & 5 & 9 & $\infty$ \\
+                \hline
+                D & 3 & 12 & 8 & 5 & 6 & $\infty$ \\
+                \hline
+                E & 3 & 12 & 7 & 5 & 6 & $\infty$ \\
+                \hline
+                C & 3 & 11 & 7 & 5 & 6 & 11 \\
+                \hline
+                B & 3 & 11 & 7 & 5 & 6 & 11 \\
+                \hline 
+                F & 3 & 11 & 7 & 5 & 6 & 11 \\
+                \hline
+               \end{tabular}
+               \caption{Calculation of shortest distance from $R$.}
+               \label{tab:my_label}
+           \end{table}
+           \begin{itemize}
+                \item First we select vertex $R$ and do procedure as mention in $3.1.1$.
+               \item Then we select the vertex with smallest distance, in this case it is $A$.
+               \item Then we iterate from $2^{nd}$ to last column and  if the distance from $A$ to that vertex is smaller than previous value change the value to distance between them else keep as it is. \item Now repeat this till all vertices are selected.
+           \end{itemize}
+           \begin{table}[h!]
+               \centering
+               \begin{tabular}{|c|c|c|c|c|c|c|}
+               \hline
+                   Shortest Distance from vertex & $A$ & $B$ & $C$ & $D$ & $E$ & $F$ \\
+                   $R$ to & 3 & 11 & 7 & 5 & 6 & 11 \\
+               \hline
+               \end{tabular}
+               
+               \label{tab:my_label}
+           \end{table}
+           \item From node $D$
+            \begin{table}[h]
+               \centering
+               \begin{tabular}{|C|c|c|c|c|c|c|c|}
+               \hline
+                Selected Vertex & R & A & B & C & E & F   \\
+                \hline
+                D & 5 & $\infty$ & $\infty$ & $\infty$ & 1 & $\infty$ \\
+                \hline
+                E & 5 & 7 & $\infty$ & 2 & 1 & $\infty$ \\
+                \hline
+                C & 5 & 7 & 6 & 2 & 1 & 6 \\
+                \hline
+                R & 5 & 7 & 6 & 2 & 1 & 6 \\
+                \hline
+                B & 5 & 7 & 6 & 2 & 1 & 6 \\
+                \hline
+                F & 5 & 7 & 6 & 2 & 1 & 6 \\
+                \hline 
+                A & 5 & 7 & 6 & 2 & 1 & 6 \\
+                \hline
+               \end{tabular}
+               \caption{Calculation of shortest distance from $D$.}
+               \label{tab:my_label}
+           \end{table}\nopagebreak
+           \begin{table}[h!]
+               \centering
+               \begin{tabular}{|c|c|c|c|c|c|c|}
+               \hline
+                   Shortest Distance from vertex & $R$ & $A$ & $B$ & $C$ & $E$ & $F$ \\
+                   $D$ to & 5 & 7 & 6 & 2 & 1 & 6 \\
+               \hline
+               \end{tabular}
+              \caption{Results of $D$}
+               \label{tab:my_label}
+           \end{table}
+           \newpage
+%----------------------------------------------------------------------
+            \item From node $E$
+            \begin{table}[h]
+               \centering
+               \begin{tabular}{|C|c|c|c|c|c|c|c|}
+               \hline
+                Selected Vertex & R & A & B & C & D & F  \\
+                \hline
+                E & $\infty$ & 6 & $\infty$ & 1 & 1 & $\infty$ \\
+                \hline
+                C & 9 & 6 & 5 & 1 & 1 & 5 \\
+                \hline
+                D & 6 & 6 & 5 & 1 & 1 & 5 \\
+                \hline
+                B & 6 & 6 & 5 & 1 & 1 & 5 \\
+                \hline
+                F & 6 & 6 & 5 & 1 & 1 & 5 \\
+                \hline
+                R & 6 & 6 & 5 & 1 & 1 & 5 \\
+                \hline 
+                A & 6 & 6 & 5 & 1 & 1 & 5 \\
+                \hline
+               \end{tabular}
+               \caption{Calculation of shortest distance from $E$.}
+               \label{tab:my_label}
+           \end{table}
+           \begin{table}[h!]
+               \centering
+               \begin{tabular}{|c|c|c|c|c|c|c|}
+               \hline
+                   Shortest Distance from vertex & $R$ & $A$ & $B$ & $C$ & $D$ & $F$ \\
+                   $E$ to & 6 & 6 & 5 & 1 & 1 & 5 \\
+               \hline
+               \end{tabular}
+               \caption{Results of $E$}
+               \label{tab:my_label}
+           \end{table}
+%---------------------------------------------------------------------
+            \item From node $F$
+            \begin{table}[h]
+               \centering
+               \begin{tabular}{|C|c|c|c|c|c|c|c|}
+               \hline
+                Selected Vertex & R & A & B & C & D & E   \\
+                \hline
+                F & $\infty$ & $\infty$ & 2 & 4 & $\infty$ & $\infty$ \\
+                \hline
+                B & $\infty$ & 11 & 2 & 4 & $\infty$ & $\infty$ \\
+                \hline
+                C & 12 & 11 & 2 & 4 & $\infty$ & 5 \\
+                \hline
+                E & 12 & 11 & 2 & 4 & 6 & 5 \\
+                \hline
+                D & 11 & 11 & 2 & 4 & 6 & 5 \\
+                \hline
+                R & 11 & 11 & 2 & 4 & 6 & 5 \\
+                \hline 
+                A & 11 & 11 & 2 & 4 & 6 & 5 \\
+                \hline
+               \end{tabular}
+               \caption{Calculation of shortest distance from $F$.}
+               \label{tab:my_label}
+           \end{table} 
+           \begin{table}[h!]
+               \centering
+               \begin{tabular}{|c|c|c|c|c|c|c|}
+               \hline
+                   Shortest Distance from vertex & $R$ & $A$ & $B$ & $C$ & $D$ & $E$ \\
+                   $F$ to & 11 & 11 & 2 & 4 & 6 & 5 \\
+               \hline
+               \end{tabular}
+               \caption{Results of $F$}
+               \label{tab:my_label}
+           \end{table}
+          \begin{itemize}
+              \item Now from the above calculation of $4$ vertex we will make a simplified graph which contains only these $4$ vertices and paths between $4$ these vertices only.
+              \item And the simplified graph is shown below in $Fig:2$.
+          \end{itemize}
+          \citep{key1}
+%-------------------------------------------------------------------
+        \end{enumerate}
+        \newpage
+       
+    \subsection{Finding best Hamiltonian Circuit from all possible paths:}
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.9\textwidth, height=0.45\textwidth]{201901005_Nodegraph2.jpg}
+        \caption{Simplified Graph containing less vertices than original Graph.}
+        \label{fig:Nodegraph2}
+    \end{figure}\\
+    \textbf{Hamiltonian Circuit :} A simple circuit in a graph G that passes through every vertex exactly once is called a \textit{Hamiltonian Circuit}.\\
+    
+    In this section we have to find best Hamiltonian circuit with minimum distance.
+    \subsubsection{Problem :}
+    --Pizza Delivery boy has to start at Restaurant ($R$) and he want to visit all the nodes exactly once and return to the Restaurant($R$).
+    \subsubsection{Recursive Procedure :}
+    \begin{enumerate}
+        \item As shown in recursive tree in $Fig:3$ , we start at the source vertex $R$ and from $R$ we have $3$ ways to go.
+        \item And from that $3$ ways we have $6$ ways and we have completed till levet $2$.
+        \item Now at level $3$ we have $6$ ways.
+        \item From that $6$ ways at level $3$ we have to find distance of these $6$ vertex with source vertex $R$.
+        \item Now we have to go reverse from bottom to top of the tree and keep adding distances between nodes and if at some vertex we get two values then we have to select the minimum distance and go above.
+        \item In this way at root we have $3$ values of distances so we have to compare theses distances and select the minimum distance.
+    \end{enumerate}
+    \newpage
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=1.1\textwidth, height=0.9\textwidth]{201901005_Recursivetree.jpg}
+        \caption{Recursion Tree:}
+        \label{fig:recursivetree}
+    \end{figure}\\
+    --Recursive formula for the above tree is - 
+    $$g(i,S)=min_{k\epsilon S}\{C_{ik} + g(k,S-{k})\}$$
+    where $g(i,S)$ is the recursive function,S is the set of all vertices,k is the selected vertex and $C_{ik}$ is the distance between $i$ and $k$.\\
+    \\
+    Eg: S=\{D,E,F\}
+    
+    $k$ is $D$.
+    
+    $S-\{k\} = \{E,F\}$
+    
+    $C_{RD}$ is the distance between R and D.
+    
+    $g(R,S)=min_{D\epsilon S}\{C_{RD} + g(D,S-{D})\}$\\
+    \\
+    \begin{itemize}
+        \item So the minimum distance that pizza delivery boy must travel is 22 units.
+        \item And one of the best path is $R-D-E-F-R$.  \citep{key2}\\
+    \end{itemize}
+    
+    \newpage
+    \subsection{Finding Time Complexity}
+    \begin{enumerate}
+        \item \textbf{For Dijkstra Algorithm $(Section 3.1)$:}
+        \begin{itemize}
+            \item In this algorithm we have to select every node one by one and for each node we have to check for adjacent nodes distances.
+            \item For, worst case we have $(n-1)$ adjacent nodes for every $n$ nodes.
+            \item Hence, wort case Time Complexity is $O(n*(n-1))$ = $O(n^2)$.
+            \item For best case we have $1$ adjacent node for every $n$ nodes.
+            \item Hence Best case TIme Complexity is $\theta(n*1)$ = $\theta(n)$.
+        \end{itemize} \\
+        
+        \item \textbf{For Finding Best Hamiltonian Circuit $(Section 3.2)$:}\\
+        --Recursive formula for the above tree is - 
+            $$g(i,S)=min_{k\epsilon S}\{C_{ik} + g(k,S-{k})\}$$
+            \begin{itemize}
+                \item This algorithm recursively finds the shortest tour starting from each neighbor and returns the minimum of those. 
+                \item If you do all this with dynamic programming you can calculate the amount of work you're doing like so:
+                \item There are n possible start vertices and $2^n$ possible subgraphs. 
+                \item So this function will be called on at most $n.2^n$ distinct arguments.
+                \item Each call performs at most $O(n)$ work (there are at most n neighbors). 
+                \item Hence the total work you're doing is $O(n^22^n)$.  \citep{key3}
+            \end{itemize}
+            
+    \end{enumerate}
+    \\ \\
+\section{Conclusion :}
+\begin{itemize}
+    \item So by this solution we can find the shortest path and also the shortest distance or say minimum cost.
+    \item This process is little bit same as the logic behind the google maps.
+    \item If we modify certain things then we can do mny things out of it.
+    \item We can also do some research and make another algorithm for this problem and make it even more efficient. 
+\end{itemize}
+\newpage 
+\section{Commercialization of this Product :}
+This type of Project has high commercial requirement.And the proof of this is that we are using Google Maps in our everyday life to go
+to our destination with faster and with minimum cost or the minimum distance.\\ \\
+--My Project is little different from Google Maps and the differences are : 
+\begin{enumerate}
+    \item Google maps only calculates distance, time and shortest path.
+    \item On the other side my project calculates minimum distance and the best possible path.
+    \item But the major difference from Google Maps is that my project calculates shortest path from one node to other and also it finds the shortest path and minimum distance if we want to visit $v$ nodes out of $n$ nodes like a pizza delivery boy does or for any courier service.
+\end{enumerate}
+\\
+-It has many advantages like :
+\begin{itemize}
+    \item By using this technology we can save our fuel and hence we preserve our natural resources from being destroy rapidly.
+    \item If less fuel is used then we can save our money.
+    \item We can also decrese pollution by this way.
+    \item Finally the most important thing that we save by using this is \textbf{Time} which is very precious than anything.
+\end{itemize}\\
+We can make an app and upload it on Play store to do our own startup and \textbf{earn money} out of it!!!
+\bibliographystyle{plain}
+\bibliography{201901005}
+
+\centering
+\textbf{Thank You}
+\end{document}
