@@ -1,4 +1,7 @@
 # help-Delivery-Boy
-step 1 : click on this for website : https://sites.google.com/view/201901005/home   
-step 2 : Run project code.c   
-step 3 : see ProjectReport.pdf    
+An initiative which can be converted to startup.
+
+<h2> Complete Guide</h2>
+
+To get more information you visit this: https://sites.google.com/view/201901005/home  or you can see pdf.<br>
+Full Software Implementation in C (programming language).<br>
